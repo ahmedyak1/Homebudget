@@ -1,18 +1,12 @@
-// rrd imports
+// Import necessary libraries and components
 import { useLoaderData } from "react-router-dom";
-
-// library
 import { toast } from "react-toastify";
-
-// components
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
-
-// helpers
 import { createExpense, deleteItem, getAllMatchingItems } from "../helpers";
 
-// loader
+// Loader function to fetch budget and expenses data
 export async function budgetLoader({ params }) {
   const budget = await getAllMatchingItems({
     category: "budgets",
@@ -33,7 +27,7 @@ export async function budgetLoader({ params }) {
   return { budget, expenses };
 }
 
-// action
+// Action function to handle creating and deleting expenses
 export async function budgetAction({ request }) {
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
@@ -64,6 +58,7 @@ export async function budgetAction({ request }) {
   }
 }
 
+// BudgetPage component to display budget overview and expenses
 const BudgetPage = () => {
   const { budget, expenses } = useLoaderData();
 
@@ -92,4 +87,5 @@ const BudgetPage = () => {
     </div>
   );
 };
+
 export default BudgetPage;
