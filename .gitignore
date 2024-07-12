@@ -1,4 +1,4 @@
-# Logs
+# Log files
 logs
 *.log
 npm-debug.log*
@@ -7,9 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependency directories
 node_modules
+
+# Build directories
 dist
 dist-ssr
+
+# Local environment files
 *.local
 
 # Editor directories and files
