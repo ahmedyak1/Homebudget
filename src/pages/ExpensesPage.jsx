@@ -1,22 +1,16 @@
-// rrd imports
+// Import necessary libraries and components
 import { useLoaderData } from "react-router-dom";
-
-// library import
 import { toast } from "react-toastify";
-
-// component imports
 import Table from "../components/Table";
-
-// helpers
 import { deleteItem, fetchData } from "../helpers";
 
-// loader
+// Loader function to fetch expenses data
 export async function expensesLoader() {
   const expenses = fetchData("expenses");
   return { expenses };
 }
 
-// action
+// Action function to handle deleting expenses
 export async function expensesAction({ request }) {
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
@@ -34,6 +28,7 @@ export async function expensesAction({ request }) {
   }
 }
 
+// ExpensesPage component to display all expenses
 const ExpensesPage = () => {
   const { expenses } = useLoaderData();
 
