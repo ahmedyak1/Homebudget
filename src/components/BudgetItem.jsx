@@ -1,16 +1,13 @@
-// rrd imports
+// Import necessary libraries and components
 import { Form, Link } from "react-router-dom";
-
-// library imports
 import { BanknotesIcon, TrashIcon } from "@heroicons/react/24/outline";
-
-// helper functions
 import {
   calculateSpentByBudget,
   formatCurrency,
   formatPercentage,
 } from "../helpers";
 
+// BudgetItem component to display individual budget details
 const BudgetItem = ({ budget, showDelete = false }) => {
   const { id, name, amount, color } = budget;
   const spent = calculateSpentByBudget(id);
@@ -65,4 +62,5 @@ const BudgetItem = ({ budget, showDelete = false }) => {
     </div>
   );
 };
+
 export default BudgetItem;
