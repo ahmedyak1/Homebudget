@@ -1,6 +1,7 @@
-// component import
+// Import necessary components
 import ExpenseItem from "./ExpenseItem";
 
+// Table component to display a list of expenses
 const Table = ({ expenses, showBudget = true }) => {
   return (
     <div className="table">
@@ -8,8 +9,8 @@ const Table = ({ expenses, showBudget = true }) => {
         <thead>
           <tr>
             {["Name", "Amount", "Date", showBudget ? "Budget" : "", ""].map(
-              (i, index) => (
-                <th key={index}>{i}</th>
+              (header, index) => (
+                <th key={index}>{header}</th>
               )
             )}
           </tr>
@@ -25,4 +26,5 @@ const Table = ({ expenses, showBudget = true }) => {
     </div>
   );
 };
+
 export default Table;
