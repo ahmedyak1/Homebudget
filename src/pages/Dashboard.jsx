@@ -1,17 +1,11 @@
-// rrd imports
+// Import necessary libraries and components
 import { Link, useLoaderData } from "react-router-dom";
-
-// library imports
 import { toast } from "react-toastify";
-
-// components
 import Intro from "../components/Intro";
 import AddBudgetForm from "../components/AddBudgetForm";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
-
-//  helper functions
 import {
   createBudget,
   createExpense,
@@ -20,7 +14,7 @@ import {
   waait,
 } from "../helpers";
 
-// loader
+// Loader function to fetch user data, budgets, and expenses
 export function dashboardLoader() {
   const userName = fetchData("userName");
   const budgets = fetchData("budgets");
@@ -28,61 +22,58 @@ export function dashboardLoader() {
   return { userName, budgets, expenses };
 }
 
-// action
+// Action function to handle various form submissions on the dashboard
 export async function dashboardAction({ request }) {
   await waait();
 
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
 
-  // new user submission
-  if (_action === "newUser") {
-    try {
-      localStorage.setItem("userName", JSON.stringify(values.userName));
-      return toast.success(`Welcome, ${values.userName}`);
-    } catch (e) {
-      throw new Error("There was a problem creating your account.");
-    }
-  }
-
-  if (_action === "createBudget") {
-    try {
-      createBudget({
-        name: values.newBudget,
-        amount: values.newBudgetAmount,
-      });
-      return toast.success("Budget created!");
-    } catch (e) {
-      throw new Error("There was a problem creating your budget.");
-    }
-  }
-
-  if (_action === "createExpense") {
-    try {
-      createExpense({
-        name: values.newExpense,
-        amount: values.newExpenseAmount,
-        budgetId: values.newExpenseBudget,
-      });
-      return toast.success(`Expense ${values.newExpense} created!`);
-    } catch (e) {
-      throw new Error("There was a problem creating your expense.");
-    }
-  }
-
-  if (_action === "deleteExpense") {
-    try {
-      deleteItem({
-        key: "expenses",
-        id: values.expenseId,
-      });
-      return toast.success("Expense deleted!");
-    } catch (e) {
-      throw new Error("There was a problem deleting your expense.");
-    }
+  switch (_action) {
+    case "newUser":
+      try {
+        localStorage.setItem("userName", JSON.stringify(values.userName));
+        return toast.success(`Welcome, ${values.userName}`);
+      } catch (e) {
+        throw new Error("There was a problem creating your account.");
+      }
+    case "createBudget":
+      try {
+        createBudget({
+          name: values.newBudget,
+          amount: values.newBudgetAmount,
+        });
+        return toast.success("Budget created!");
+      } catch (e) {
+        throw new Error("There was a problem creating your budget.");
+      }
+    case "createExpense":
+      try {
+        createExpense({
+          name: values.newExpense,
+          amount: values.newExpenseAmount,
+          budgetId: values.newExpenseBudget,
+        });
+        return toast.success(`Expense ${values.newExpense} created!`);
+      } catch (e) {
+        throw new Error("There was a problem creating your expense.");
+      }
+    case "deleteExpense":
+      try {
+        deleteItem({
+          key: "expenses",
+          id: values.expenseId,
+        });
+        return toast.success("Expense deleted!");
+      } catch (e) {
+        throw new Error("There was a problem deleting your expense.");
+      }
+    default:
+      throw new Error("Unknown action");
   }
 }
 
+// Dashboard component to display user budgets and expenses
 const Dashboard = () => {
   const { userName, budgets, expenses } = useLoaderData();
 
@@ -137,4 +128,5 @@ const Dashboard = () => {
     </>
   );
 };
+
 export default Dashboard;
